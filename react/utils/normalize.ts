@@ -86,12 +86,14 @@ const resizeImage = (url: string, imageSize: string | number) =>
 
 export function mapCatalogProductToProductSummary(
   product: any,
-  imageSize: string | number = 500
+  index: any,
+  imageSize: string | number = 500,
 ) {
   if (!product) return null
   const normalizedProduct = { ...product }
   const items = normalizedProduct.items || []
   const sku = items.find(findAvailableProduct) || items[0]
+  
 
   if (sku) {
     const seller =
@@ -116,6 +118,7 @@ export function mapCatalogProductToProductSummary(
       referenceId,
       image,
       images: normalizedImages,
+      index
     }
   }
 

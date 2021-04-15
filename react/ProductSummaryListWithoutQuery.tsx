@@ -13,7 +13,7 @@ type Props = PropsWithChildren<{
   /** Array of products. */
   products?: any[]
   /** Slot of product summary. */
-  ProductSummary: ComponentType<{ product: any }>
+  ProductSummary: ComponentType<{ product: any, index: any }>
   /** Name of the list property on Google Analytics events. */
   listName?: string
   /** Callback on product click. */
@@ -30,14 +30,15 @@ function List({
   const { treePath } = useTreePath()
 
   const newListContextValue = useMemo(() => {
-    const componentList = products?.map((product) => {
-      const normalizedProduct = mapCatalogProductToProductSummary(product)
-
+    const componentList = products?.map((product, index) => {
+      const normalizedProduct = mapCatalogProductToProductSummary(product, index)
+      
       if (typeof ProductSummary === 'function') {
         return (
           <ProductSummary
             key={normalizedProduct.cacheId}
             product={normalizedProduct}
+            index={index}
           />
         )
       }

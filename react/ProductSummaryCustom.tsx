@@ -181,6 +181,7 @@ interface Props {
    */
   priceBehavior?: 'async' | 'default'
   classes?: CssHandlesTypes.CustomClasses<typeof CSS_HANDLES>
+  index?: number
 }
 
 function ProductSummaryWrapper({
@@ -199,7 +200,31 @@ function ProductSummaryWrapper({
       <ProductSummaryCustom
         product={product}
         href={href}
-        actionOnClick={actionOnClick}
+        actionOnClick={()=>{
+          actionOnClick ? actionOnClick() : null
+
+          // window.postMessage(
+          //   {
+          //     eventName: 'myProductClickEvent',
+          //     data: {
+          //       Product: product,
+          //       index
+          //     },
+          //   },
+          //   window.origin
+          // )
+
+          //   window.postMessage(
+          //     {
+          //       eventName: 'myProductEvent',
+          //       data: {
+          //         Product: product,
+          //       },
+          //     },
+          //     window.origin
+          //   )
+
+        }}
         priceBehavior={priceBehavior}
         classes={classes}
       >

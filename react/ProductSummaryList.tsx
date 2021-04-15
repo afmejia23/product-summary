@@ -99,7 +99,7 @@ interface Props {
    */
   listName?: string
   /** Slot of a product summary. */
-  ProductSummary: ComponentType<{ product: any }>
+  ProductSummary: ComponentType<{ product: any, index: any }>
   /** Callback on product click. */
   actionOnProductClick?: (product: any) => void
 }
@@ -142,12 +142,15 @@ function ProductSummaryList(props: PropsWithChildren<Props>) {
     },
   })
 
-  const { products } = data ?? {}
+  // const { products } = data ?? {}
+  const products = data?.products ? data.products.map((product, index) => {
+    return {...product, index}
+  }) : []
 
   const productClick = useCallback(
     (product: any) => {
       actionOnProductClick?.(product)
-
+      
       push({
         event: 'productClick',
         // Not using ?? operator because listName can be ''
