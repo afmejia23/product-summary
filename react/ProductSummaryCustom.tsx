@@ -214,15 +214,15 @@ function ProductSummaryWrapper({
           //   window.origin
           // )
 
-          //   window.postMessage(
-          //     {
-          //       eventName: 'myProductEvent',
-          //       data: {
-          //         Product: product,
-          //       },
-          //     },
-          //     window.origin
-          //   )
+            window.postMessage(
+              {
+                eventName: 'myProductEvent',
+                data: {
+                  Product: product,
+                },
+              },
+              window.origin
+            )
 
         }}
         priceBehavior={priceBehavior}
