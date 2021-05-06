@@ -1,7 +1,7 @@
 {
-  "vendor": "easycl",
+  "vendor": "vtex",
   "name": "product-summary",
-  "version": "3.0.3",
+  "version": "2.0.3",
   "title": "Product Summary",
   "description": "Product summary component",
   "defaultLocale": "pt-BR",
@@ -31,8 +31,7 @@
     "vtex.product-list-context": "0.x",
     "vtex.search-page-context": "0.x",
     "vtex.structured-data": "0.x",
-    "vtex.on-view": "1.x",
-    "vtex.product-summary": "2.x"
+    "vtex.on-view": "1.x"
   },
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }
