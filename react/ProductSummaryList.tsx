@@ -165,7 +165,6 @@ function ProductSummaryList(props: PropsWithChildren<Props>) {
   if (loading || error) {
     return null
   }
-
   return (
     <ProductSummaryListWithoutQuery
       products={products}

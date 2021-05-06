@@ -10,6 +10,8 @@ import { ProductContextProvider } from 'vtex.product-context'
 import type { ProductTypes } from 'vtex.product-context'
 import { useCssHandles } from 'vtex.css-handles'
 import type { CssHandlesTypes } from 'vtex.css-handles'
+import { usePixel } from "vtex.pixel-manager";
+
 
 import LocalProductSummaryContext from './ProductSummaryContext'
 import { mapCatalogProductToProductSummary } from './utils/normalize'
@@ -166,7 +168,8 @@ function ProductSummaryCustom({
           </section>
         </ProductPriceSimulationWrapper>
       </ProductContextProvider>
-    </LocalProductSummaryContext.Provider>
+      </LocalProductSummaryContext.Provider>
+      
   )
 }
 
@@ -190,31 +193,19 @@ function ProductSummaryWrapper({
   href,
   priceBehavior = 'default',
   classes,
-  children,
+  children
 }: PropsWithChildren<Props>) {
-  return (
-    <ProductSummaryProvider
-      product={product}
-      isPriceLoading={priceBehavior === 'async'}
-    >
-      <ProductSummaryCustom
-        product={product}
-        href={href}
-        actionOnClick={()=>{
-          actionOnClick ? actionOnClick() : null
-
-          // window.postMessage(
-          //   {
-          //     eventName: 'myProductClickEvent',
-          //     data: {
-          //       Product: product,
-          //       index
-          //     },
-          //   },
-          //   window.origin
-          // )
-
-            window.postMessage(
+  const { push } = usePixel()
+  const productClick = useCallback(
+    () => {
+      actionOnClick ? actionOnClick() : null
+      // push({
+      //   event: 'productView',
+      //   // Not using ?? operator because listName can be ''
+      //   // eslint-disable-next-line no-unneeded-ternary
+      //   product,
+      // })
+           window.postMessage(
               {
                 eventName: 'myProductEvent',
                 data: {
@@ -223,14 +214,67 @@ function ProductSummaryWrapper({
               },
               window.origin
             )
+    },
+    [push]
+  )
+  return (
+    
+    <ProductSummaryProvider
+      product={product}
+      isPriceLoading={priceBehavior === 'async'}
+    >
+      {/* <div onClick={() => {
 
-        }}
-        priceBehavior={priceBehavior}
-        classes={classes}
-      >
-        {children}
-      </ProductSummaryCustom>
-    </ProductSummaryProvider>
+        window.postMessage(
+          {
+            eventName: 'myProductEvent',
+            data: {
+              Product: product,
+            },
+          },
+          window.origin
+        )
+
+        window.postMessage(
+              {
+                eventName: 'myProductClickEvent',
+                data: {
+                  Product: product,
+                },
+              },
+              window.origin
+            )
+        
+      }}> */}
+        <ProductSummaryCustom
+          product={product}
+           href={href}
+          // actionOnClick={()=>{
+          //   actionOnClick ? actionOnClick() : null
+
+          //   // window.postMessage(
+          //   //   {
+          //   //     eventName: 'myProductClickEvent',
+          //   //     data: {
+          //   //       Product: product,
+          //   //       index
+          //   //     },
+          //   //   },
+          //   //   window.origin
+          //   // )
+            
+              
+
+          // }}
+          actionOnClick={productClick}
+          priceBehavior={priceBehavior}
+          classes={classes}
+        >
+          {children}
+        </ProductSummaryCustom>
+      {/* </div> */}
+      </ProductSummaryProvider>
+      
   )
 }
 
